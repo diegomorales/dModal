@@ -1,0 +1,25 @@
+{
+    "name": "dmodal",
+    "version": "0.0.1",
+    "description": "A super tiny modal plugin.",
+    "author": "Diego Morales <diego.morales@gmx.net>",
+    "devDependencies": {
+        "gulp": "^3.9.0",
+        "gulp-uglify": "^1.5.1",
+        "gulp-eslint": "^1.1.1",
+        "gulp-umd": "^0.2.0",
+        "gulp-sass": "^2.1.1",
+        "path": "*"
+    },
+
+    "dependencies": {},
+
+    "scripts": {
+        "prestart": "npm install",
+        "start": "gulp",
+        "build": "npm install; gulp build",
+        "update": "npm update"
+    },
+    "private": true,
+    "license": "MIT"
+}
