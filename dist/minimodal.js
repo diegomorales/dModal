@@ -4,18 +4,18 @@
   } else if (typeof exports === 'object') {
     module.exports = factory();
   } else {
-    root.dModal = factory();
+    root.minimodal = factory();
   }
 }(this, function() {
 'use strict';
 
-var dModal = {},
+var minimodal = {},
 
     _defaults = {
-        modalOverlay: '.d-modal-overlay',
-        modalContent: '.d-modal-content',
-        modalCloseBtn: '.d-modal-close',
-        bodyOpenClass: 'd-modal-open',
+        modalOverlay: '.mini-modal-overlay',
+        modalContent: '.mini-modal-content',
+        modalCloseBtn: '.mini-modal-close',
+        bodyOpenClass: 'mini-modal-open',
         modalOpenClass: 'open',
         backgroundClickClose: true,
         escClose: true
@@ -63,7 +63,7 @@ var dModal = {},
     _onBeforeOpen = function() {},
     _onBeforeClose = function() {};
 
-function DModal(options) {
+function MiniModal(options) {
     this.settings = _extend({}, options, _defaults);
 
     this.modal = document.getElementById(options.modalId);
@@ -101,7 +101,7 @@ function DModal(options) {
     }
 }
 
-DModal.prototype.open = function() {
+MiniModal.prototype.open = function() {
 
     // show modal. setTimeout is needed if transitions are used.
     setTimeout(function() {
@@ -113,9 +113,9 @@ DModal.prototype.open = function() {
     }.bind(this), 10);
 };
 
-dModal.open = function(options) {
-    return new DModal(options);
+minimodal.open = function(options) {
+    return new MiniModal(options);
 };
 
-return dModal;
+return minimodal;
 }));
