@@ -12,10 +12,10 @@
 var minimodal = {},
 
     _defaults = {
-        modalOverlay: '.mini-modal-overlay',
-        modalContent: '.mini-modal-content',
-        modalCloseBtn: '.mini-modal-close',
-        bodyOpenClass: 'mini-modal-open',
+        modalOverlay: '.mini-modal__overlay',
+        modalContent: '.mini-modal__content',
+        modalCloseBtn: '.mini-modal__close',
+        bodyOpenClass: 'mini-modal--open',
         modalOpenClass: 'open',
         backgroundClickClose: true,
         escClose: true

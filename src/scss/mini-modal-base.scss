@@ -17,7 +17,7 @@
     }
 }
 
-.mini-modal-overlay {
+.mini-modal__overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -27,7 +27,7 @@
     z-index: 1000;
 }
 
-.mini-modal-content {
+.mini-modal__content {
     position: relative;
     top: 15%;
     padding: 20px;
@@ -37,7 +37,7 @@
     background-color: #fff;
 }
 
-.mini-modal-close {
+.mini-modal__close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -67,6 +67,6 @@
 
 }
 
-.mini-modal-open {
+.mini-modal--open {
     overflow: hidden;
 }
