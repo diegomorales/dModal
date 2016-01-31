@@ -1,5 +1,5 @@
 {
-    "name": "dmodal",
+    "name": "mini-modal",
     "version": "0.0.1",
     "description": "A super tiny modal plugin.",
     "author": "Diego Morales <diego.morales@gmx.net>",
@@ -19,7 +19,6 @@
     "scripts": {
         "prestart": "npm install",
         "start": "gulp",
-        "build": "npm install; gulp build",
         "update": "npm update"
     },
     "private": true,
