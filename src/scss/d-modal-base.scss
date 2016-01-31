@@ -1,43 +1,72 @@
-.d-modal, .d-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+.d-modal {
+    position: fixed;
+    top: 0;
+    left: -999%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.025);
+    z-index: 1001;
+    transition: all .33s ease-in-out, left 0s linear .4s;
+
+    &.open {
+        left: 0;
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity .33s, transform .33s ease-in-out;
+    }
 }
 
 .d-modal-overlay {
-  background-color: rgba(0,0,0,0.7);
-  z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
 }
 
 .d-modal-content {
-  position: relative;
-  padding-top: 20px;
-  margin: 0 auto;
-  width: 60%;
-  z-index: 102;
-}
-
-.d-modal {
-  display: none;
-  padding-top: 80px;
-  padding-bottom: 80px;
-  z-index: 101;
-}
-
-.d-modal.open {
-  display: block;
+    position: relative;
+    top: 15%;
+    padding: 20px;
+    margin: 0 auto;
+    width: 60%;
+    z-index: 1002;
+    background-color: #fff;
 }
 
 .d-modal-close {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  cursor: pointer;
-  color: #989898;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: #989898;
+
+    &:before, &:after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 20px;
+        background-color: #000;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+
 }
 
 .d-modal-open {
-  overflow: hidden;
+    overflow: hidden;
 }
