@@ -12,6 +12,8 @@ var minimodal = {},
         escClose: true
     },
 
+    _activeModal,
+
     _bd = document.body,
 
     _close = function() {
@@ -75,9 +77,13 @@ function MiniModal(options) {
     // move modal to end of body
     _bd.appendChild(this.modal);
 
+    // show modal
     this.open();
+}
 
-    // close btn
+MiniModal.prototype.open = function() {
+
+    // bind handlers for close
     this.close = _close.bind(this);
     this.escCloseHandler = _escCloseHandler.bind(this);
 
@@ -90,9 +96,6 @@ function MiniModal(options) {
     if (this.settings.backgroundClickClose) {
         this.modalOverlay.addEventListener('click', this.close);
     }
-}
-
-MiniModal.prototype.open = function() {
 
     // show modal. setTimeout is needed if transitions are used.
     setTimeout(function() {
@@ -105,5 +108,12 @@ MiniModal.prototype.open = function() {
 };
 
 minimodal.open = function(options) {
-    return new MiniModal(options);
+
+    // TODO: check if there's already an active modal.
+    return _activeModal = new MiniModal(options);
+};
+
+minimodal.close = function() {
+    _activeModal.close();
+    _activeModal = null;
 };
