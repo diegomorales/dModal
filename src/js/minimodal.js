@@ -67,6 +67,9 @@ function MiniModal(options) {
     this.onBeforeOpen = options.onBeforeOpen || _onBeforeOpen;
     this.onBeforeClose = options.onBeforeClose || _onBeforeClose;
 
+    this.close = _close.bind(this);
+    this.escCloseHandler = _escCloseHandler.bind(this);
+
     // abort if modal doesn't exist.
     if (!this.modal) {
         return {
@@ -78,15 +81,14 @@ function MiniModal(options) {
     _bd.appendChild(this.modal);
 
     // show modal
-    this.open();
+    if (this.settings.openImmediately) {
+        this.open();
+    }
 }
 
 MiniModal.prototype.open = function() {
 
     // bind handlers for close
-    this.close = _close.bind(this);
-    this.escCloseHandler = _escCloseHandler.bind(this);
-
     this.modalCloseBtn.addEventListener('click', this.close);
 
     if (this.settings.escClose) {
@@ -99,21 +101,33 @@ MiniModal.prototype.open = function() {
 
     // show modal. setTimeout is needed if transitions are used.
     setTimeout(function() {
+
         // callback
         this.onBeforeOpen(this.modal);
 
         _bd.classList.add(this.settings.bodyOpenClass);
         this.modal.classList.add(this.settings.modalOpenClass);
+
+        // store active modal, so it can be closed woth static close method.
+        _activeModal = this;
     }.bind(this), 10);
+};
+
+minimodal.create = function(options) {
+    _extend(options, { openImmediately: false });
+    return new MiniModal(options);
 };
 
 minimodal.open = function(options) {
 
-    // TODO: check if there's already an active modal.
-    return _activeModal = new MiniModal(options);
+    // close other modals first
+    this.close();
+
+    _extend(options, { openImmediately: true });
+    return new MiniModal(options);
 };
 
 minimodal.close = function() {
-    _activeModal.close();
+    _activeModal && _activeModal.close();
     _activeModal = null;
 };
