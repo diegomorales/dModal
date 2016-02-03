@@ -108,7 +108,7 @@ MiniModal.prototype.open = function() {
         _bd.classList.add(this.settings.bodyOpenClass);
         this.modal.classList.add(this.settings.modalOpenClass);
 
-        // store active modal, so it can be closed woth static close method.
+        // store active modal, so it can be closed with static close method.
         _activeModal = this;
     }.bind(this), 10);
 };
