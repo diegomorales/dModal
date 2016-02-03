@@ -13,7 +13,10 @@
         left: 0;
         opacity: 1;
         transform: scale(1);
-        transition: opacity .33s, transform .33s ease-in-out;
+        /* autoprefixer: off */
+        // because autoprefixer creates weird output.
+        transition: opacity .33s, transform .33s ease-in-out, -webkit-transform .33s ease-in-out;
+        /* autoprefixer: on */
     }
 }
 
@@ -63,7 +66,6 @@
     &:after {
         transform: rotate(-45deg);
     }
-
 }
 
 .mini-modal--open {

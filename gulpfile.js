@@ -5,6 +5,9 @@ var gulp = require('gulp'),
     umd = require('gulp-umd'),
     sass = require('gulp-sass'),
     cssnano = require('gulp-cssnano'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    comments = require('postcss-discard-comments'),
     path = require('path');
 
 var devPath = 'src/',
@@ -40,7 +43,14 @@ gulp.task('lint', function(){
 
 gulp.task('sass', function(){
     return gulp.src(devPath + 'scss/**/*.scss')
-        .pipe(sass())
+        .pipe(sass({
+            indentWidth: 4,
+            outputStyle: 'expanded'
+        }))
+        .pipe(postcss([autoprefixer({
+            browsers: ['last 2 versions', 'ie 9'],
+            cascade: false
+        }), comments()]))
         .pipe(gulp.dest(distPath))
         .pipe(cssnano())
         .pipe(rename({
