@@ -1,6 +1,6 @@
 {
     "name": "mini-modal",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "A super tiny modal plugin.",
     "author": "Diego Morales <diego.morales@gmx.net>",
     "devDependencies": {
@@ -17,6 +17,8 @@
         "path": "*"
     },
 
+    "main": "./dist/minimodal.js",
+
     "dependencies": {},
 
     "scripts": {
@@ -24,6 +26,5 @@
         "start": "gulp",
         "update": "npm update"
     },
-    "private": true,
     "license": "MIT"
 }
