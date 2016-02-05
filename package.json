@@ -3,6 +3,10 @@
   "version": "0.1.1",
   "description": "A super tiny modal plugin.",
   "author": "Diego Morales <diego.morales@gmx.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diegomorales/mini-modal.git"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-uglify": "^1.5.1",
