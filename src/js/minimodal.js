@@ -16,14 +16,38 @@ var minimodal = {},
 
     _bd = document.body,
 
+    // helper functions
+    _extend = function() {
+        for (var i = 1; i < arguments.length; i++) {
+            for (var key in arguments[i]) {
+                if (arguments[i].hasOwnProperty(key)) {
+                    arguments[0][key] = arguments[i][key];
+                }
+            }
+        }
+
+        return arguments[0];
+    },
+
+    _removeClass = function(el, classname) {
+        var classes = el.className.split(' '),
+            pos = classes.indexOf(classname);
+
+        if (pos > -1) {
+            classes.splice(pos, 1);
+        }
+
+        el.className = classes.join(' ');
+    },
+
     _close = function() {
 
         // fire callback
         this.onBeforeClose(this.modal);
 
         // hide modal
-        this.modal.classList.remove(this.settings.modalOpenClass);
-        _bd.classList.remove(this.settings.bodyOpenClass);
+        _removeClass(this.modal, this.settings.modalOpenClass);
+        _removeClass(_bd, this.settings.bodyOpenClass);
 
         // unbind events
         this.modalCloseBtn.removeEventListener('click', this.close);
@@ -37,19 +61,6 @@ var minimodal = {},
         }
 
         e.preventDefault();
-    },
-
-    // helper function
-    _extend = function() {
-        for (var i = 1; i < arguments.length; i++) {
-            for (var key in arguments[i]) {
-                if (arguments[i].hasOwnProperty(key)) {
-                    arguments[0][key] = arguments[i][key];
-                }
-            }
-        }
-
-        return arguments[0];
     },
 
     // callbacks
@@ -105,8 +116,8 @@ MiniModal.prototype.open = function() {
         // callback
         this.onBeforeOpen(this.modal);
 
-        _bd.classList.add(this.settings.bodyOpenClass);
-        this.modal.classList.add(this.settings.modalOpenClass);
+        _bd.className += ' ' + (this.settings.bodyOpenClass);
+        this.modal.className += ' ' + (this.settings.modalOpenClass);
 
         // store active modal, so it can be closed with static close method.
         _activeModal = this;
