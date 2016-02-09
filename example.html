@@ -45,7 +45,10 @@
 
     btn1.addEventListener('click', function(){
         minimodal.open({
-            modalId: 'modal-1'
+            modalId: 'modal-1',
+            onInit: function(){
+                console.log('init',this);
+            }
         });
     });
 </script>
