@@ -85,7 +85,7 @@ function MiniModal(options) {
     this.modalContent = this.modal.querySelector(this.settings.modalContent);
     this.modalCloseBtn = this.modal.querySelector(this.settings.modalCloseBtn);
 
-    this.onInit = options.onInit || _onInit();
+    this.onInit = options.onInit || _onInit;
     this.onBeforeOpen = options.onBeforeOpen || _onBeforeOpen;
     this.onBeforeClose = options.onBeforeClose || _onBeforeClose;
 
