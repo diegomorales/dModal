@@ -20,9 +20,7 @@ var minimodal = {},
         backgroundClickClose: true,
         escClose: true
     },
-
     _activeModal,
-
     _bd = document.body,
 
     // helper functions
@@ -49,6 +47,25 @@ var minimodal = {},
         el.className = classes.join(' ');
     },
 
+    // bind handlers for close
+    _bindClose = function() {
+        this.modalCloseBtn.addEventListener('click', this.close);
+
+        if (this.settings.escClose) {
+            _bd.addEventListener('keyup', this._escCloseHandler);
+        }
+
+        if (this.settings.backgroundClickClose) {
+            this.modalOverlay.addEventListener('click', this.close);
+        }
+    },
+
+    _unbindClose = function() {
+        this.modalCloseBtn.removeEventListener('click', this.close);
+        this.modalOverlay.removeEventListener('click', this.close);
+        _bd.removeEventListener('keyup', this._escCloseHandler);
+    },
+
     _close = function() {
 
         // fire callback
@@ -58,10 +75,7 @@ var minimodal = {},
         _removeClass(this.modal, this.settings.modalOpenClass);
         _removeClass(_bd, this.settings.bodyOpenClass);
 
-        // unbind events
-        this.modalCloseBtn.removeEventListener('click', this.close);
-        this.modalOverlay.removeEventListener('click', this.close);
-        _bd.removeEventListener('keyup', this.escCloseHandler);
+        this._unbindClose();
     },
 
     _escCloseHandler = function(e) {
@@ -90,7 +104,9 @@ function MiniModal(options) {
     this.onBeforeClose = options.onBeforeClose || _onBeforeClose;
 
     this.close = _close.bind(this);
-    this.escCloseHandler = _escCloseHandler.bind(this);
+    this._escCloseHandler = _escCloseHandler.bind(this);
+    this._bindClose = _bindClose.bind(this);
+    this._unbindClose = _unbindClose.bind(this);
 
     // abort if modal doesn't exist.
     if (!this.modal) {
@@ -99,6 +115,7 @@ function MiniModal(options) {
         };
     }
 
+    // callback
     this.onInit.apply(this);
 
     // move modal to end of body
@@ -111,17 +128,7 @@ function MiniModal(options) {
 }
 
 MiniModal.prototype.open = function() {
-
-    // bind handlers for close
-    this.modalCloseBtn.addEventListener('click', this.close);
-
-    if (this.settings.escClose) {
-        _bd.addEventListener('keyup', this.escCloseHandler);
-    }
-
-    if (this.settings.backgroundClickClose) {
-        this.modalOverlay.addEventListener('click', this.close);
-    }
+    this._bindClose();
 
     // show modal. setTimeout is needed if transitions are used.
     setTimeout(function() {
