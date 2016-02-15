@@ -8,24 +8,31 @@
     "url": "https://github.com/diegomorales/mini-modal.git"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-uglify": "^1.5.1",
-    "gulp-eslint": "^1.1.1",
-    "gulp-umd": "^0.2.0",
-    "gulp-sass": "^2.1.1",
-    "gulp-rename": "^1.0.0",
-    "gulp-cssnano": "^2.0.0",
-    "gulp-postcss": "^6.0.0",
     "autoprefixer": "^6.0.0",
-    "postcss-discard-comments": "^2.0.0",
-    "path": "*"
+    "gulp": "^3.9.0",
+    "gulp-cssnano": "^2.0.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-postcss": "^6.0.0",
+    "gulp-rename": "^1.0.0",
+    "gulp-sass": "^2.1.1",
+    "gulp-uglify": "^1.5.1",
+    "gulp-umd": "^0.2.0",
+    "karma": "^0.13.21",
+    "karma-jasmine": "^0.3.0",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-spec-reporter": "0.0.24",
+    "karma-jasmine-jquery": "*",
+    "path": "*",
+    "phantomjs-prebuilt": "^2.1.4",
+    "postcss-discard-comments": "^2.0.0"
   },
   "main": "./dist/minimodal.js",
   "dependencies": {},
   "scripts": {
     "prestart": "npm install",
     "start": "gulp",
-    "update": "npm update"
+    "update": "npm update",
+    "test": "gulp test"
   },
   "license": "MIT"
 }

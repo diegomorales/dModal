@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     comments = require('postcss-discard-comments'),
-    path = require('path');
+    path = require('path'),
+    Server = require('karma').Server;
 
 var devPath = 'src/',
     distPath = 'dist/';
@@ -62,4 +63,12 @@ gulp.task('sass', function(){
 gulp.task('default', ['lint', 'js', 'sass'],function(){
     gulp.watch(devPath + 'js/**/*.js', ['lint', 'js']);
     gulp.watch(devPath + 'scss/**/*.scss', ['sass']);
+});
+
+// test
+gulp.task('test', function (done) {
+    return new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
 });
