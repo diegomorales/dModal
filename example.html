@@ -39,17 +39,20 @@
     </div>
 </div>
 
-<script src="dist/minimodal.js"></script>
+<script src="dist/miniModal.js"></script>
 <script>
-    var btn1 = document.getElementById('open-modal');
+    var btn1 = document.getElementById('open-modal'),
+        modal;
 
     btn1.addEventListener('click', function(){
-        minimodal.open({
-            modalId: 'modal-1',
-            onInit: function(){
-                console.log('init',this);
-            }
-        });
+        modal = new MiniModal('modal-1');
+
+//        minimodal.open({
+//            modalId: 'modal-1',
+//            onInit: function(){
+//                console.log('init',this);
+//            }
+//        });
     });
 </script>
 </body>

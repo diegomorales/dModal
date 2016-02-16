@@ -17,11 +17,13 @@
     "gulp-sass": "^2.1.1",
     "gulp-uglify": "^1.5.1",
     "gulp-umd": "^0.2.0",
+    "jasmine-core": "*",
     "karma": "^0.13.21",
     "karma-jasmine": "^0.3.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.24",
     "karma-jasmine-jquery": "*",
+    "watchify": "^3.6.1",
     "path": "*",
     "phantomjs-prebuilt": "^2.1.4",
     "postcss-discard-comments": "^2.0.0"
