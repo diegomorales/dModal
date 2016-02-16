@@ -32,7 +32,8 @@
     "prestart": "npm install",
     "start": "gulp",
     "update": "npm update",
-    "test": "gulp test"
+    "test": "karma start --single-run",
+    "test:watch": "karma start --no-single-run --auto-watch"
   },
   "license": "MIT"
 }

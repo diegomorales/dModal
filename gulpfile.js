@@ -8,8 +8,7 @@ var gulp = require('gulp'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     comments = require('postcss-discard-comments'),
-    path = require('path'),
-    Server = require('karma').Server;
+    path = require('path');
 
 var devPath = 'src/',
     distPath = 'dist/';
@@ -19,14 +18,7 @@ var devPath = 'src/',
 gulp.task('js', function(){
     return gulp.src(devPath + 'js/**/*.js')
         .pipe(umd({
-            templateName: 'amdCommonWeb',
-            exports: function(file) {
-                return path.basename(file.path, path.extname(file.path));
-            },
-
-            namespace: function(file) {
-                return path.basename(file.path, path.extname(file.path));
-            }
+            templateName: 'amdCommonWeb'
         }))
         .pipe(gulp.dest(distPath))
         .pipe(uglify())
@@ -63,12 +55,4 @@ gulp.task('sass', function(){
 gulp.task('default', ['lint', 'js', 'sass'],function(){
     gulp.watch(devPath + 'js/**/*.js', ['lint', 'js']);
     gulp.watch(devPath + 'scss/**/*.scss', ['sass']);
-});
-
-// test
-gulp.task('test', function (done) {
-    return new Server({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-    }, done).start();
 });
