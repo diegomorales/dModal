@@ -162,5 +162,9 @@ MiniModal.open = function(el, options) {
     return new MiniModal(el, options);
 };
 
+MiniModal.getActiveModal = function() {
+    return _activeModal;
+};
+
 return MiniModal;
 }));

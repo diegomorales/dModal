@@ -2,7 +2,7 @@
   "name": "mini-modal",
   "description": "A super tiny modal plugin.",
   "main": [
-    "./dist/minimodal.js",
+    "./dist/miniModal.js",
     "./dist/mini-modal-base.css"
   ],
   "authors": [
