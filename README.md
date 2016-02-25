@@ -46,13 +46,26 @@ new MiniModal('dialog');
 - `options (object)`: Configuration for the is MiniModal instance.
 
 ###Options
-- backgroundClickClose: Close modal when clicking on the background overlay. Default is `true`.
-- escClose: Close modal when pressing `ESC`-key. Default is `true`.
+- backgroundClickClose (default `true`): Close modal when clicking on the background overlay.
+- escClose (default `true`): Close modal when pressing `ESC`-key.
+- openImmediately (default `true`): Open modal when Instance is created. If you want to store the MiniModal instance and open it later, set it to `false`.
 
+###Instance methods
+####open()
+Quite obvious.
 
+####close()
+Same here.
 
 ###Static methods
-open
+####open(id, options)
+Is the same as calling `new MiniModal(id, options)`.
+
+####close()
+Closes any active modal.
+
+####getActiveModal()
+Returns MiniModal instance of the currently open modal.
 
 ##Browser Support
 - Firefox
