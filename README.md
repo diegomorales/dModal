@@ -21,6 +21,7 @@ Place this markup somewhere in `body`, preferrably at the end.
 
     <div class="mini-modal__content">
         <!-- insert your content here -->
+        
       
         <!-- close button needs to be somewhere inside of ni-modal__content -->
         <div class="mini-modal__close"></div>
