@@ -17,9 +17,7 @@ var devPath = 'src/',
 // dev tasks
 gulp.task('js', function(){
     return gulp.src(devPath + 'js/**/*.js')
-        .pipe(umd({
-            templateName: 'amdCommonWeb'
-        }))
+        .pipe(umd())
         .pipe(gulp.dest(distPath))
         .pipe(uglify())
         .pipe(rename({

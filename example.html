@@ -9,13 +9,15 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
     <link rel="stylesheet" href="dist/mini-modal-base.css">
+    <link rel="stylesheet" href="dist/mini-modal-basic-theme.css">
 </head>
 <body>
 <h1>Simple Modal</h1>
 
 <button id="open-modal">open modal</button>
+<button id="open-modal2">open modal 2   </button>
 <!-- modal dialog. is hidden -->
-<div id="modal-1" class="mini-modal">
+<div id="modal-1" class="mini-modal mini-modal--basic-theme">
     <div class="mini-modal__overlay"></div>
 
     <div class="mini-modal__content">
@@ -42,17 +44,31 @@
 <script src="dist/miniModal.js"></script>
 <script>
     var btn1 = document.getElementById('open-modal'),
-        modal;
+        btn2 = document.getElementById('open-modal2'),
+        modal = MiniModal.create('modal-1', {
+            onInit: function (data) {
+                console.log('onInit', data);
+            },
+
+            onBeforeOpen: function (data) {
+                console.log('onBeforeOpen', data);
+            },
+
+            onBeforeClose: function (data) {
+                console.log('onBeforeClose', data);
+
+                // close can be cancelled with returning false
+//                return false;
+            }
+        }),
+        modal2 = MiniModal.create('modal-2');
 
     btn1.addEventListener('click', function(){
-        modal = new MiniModal('modal-1');
+        modal.open();
+    });
 
-//        minimodal.open({
-//            modalId: 'modal-1',
-//            onInit: function(){
-//                console.log('init',this);
-//            }
-//        });
+    btn2.addEventListener('click', function(){
+        modal2.open();
     });
 </script>
 </body>
