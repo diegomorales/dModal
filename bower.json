@@ -3,7 +3,9 @@
   "description": "A super tiny modal plugin.",
   "main": [
     "./dist/miniModal.js",
-    "./dist/mini-modal-base.css"
+    "./dist/mini-modal.css",
+    "./dist/mini-modal-themes.css",
+    "./dist/mini-modal-transitions.css"
   ],
   "authors": [
     "Diego Morales <diego.morales@gmx.net>"
