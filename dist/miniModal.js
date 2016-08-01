@@ -11,11 +11,11 @@
 
 var MiniModal = {},
     defaults = {
-        modalOverlay: '.mini-modal__overlay',
-        modalContent: '.mini-modal__content',
-        modalCloseBtn: '.mini-modal__close',
+        modalOverlayClass: 'mini-modal__overlay',
+        modalContentClass: 'mini-modal__content',
+        modalCloseBtnClass: 'mini-modal__close',
         bodyOpenClass: 'mini-modal-active',
-        modalOpenClass: 'open',
+        modalOpenClass: 'mini-modal--open',
         backgroundClickClose: true,
         escClose: true,
         openImmediately: false,
@@ -25,10 +25,22 @@ var MiniModal = {},
         onBeforeClose: function () {}
     },
 
+    selectors = {
+        modalOverlay: '[data-mini-modal-overlay]',
+        modalContent: '[data-mini-modal-content]',
+        modalCloseBtn: '[data-mini-modal-close]'
+    },
+
     activeModal,
     doc = document,
 
     // helper functions
+    addClass= doc.documentElement.classList ? function (el, className) {
+        el.classList.add(className);
+    } : function (el, className) {
+        el.className += ' ' + className;
+    },
+
     removeClass = doc.documentElement.classList ? function (el, className) {
         el.classList.remove(className);
     } : function (el, className) {
@@ -65,9 +77,14 @@ MiniModal.create = function (modalId, options) {
     }
 
     // store element references
-    m.modalOverlay = m.modal.querySelector(settings.modalOverlay);
-    m.modalContent = m.modal.querySelector(settings.modalContent);
-    m.modalCloseBtn = m.modal.querySelector(settings.modalCloseBtn);
+    m.modalOverlay = m.modal.querySelector(selectors.modalOverlay);
+    m.modalContent = m.modal.querySelector(selectors.modalContent);
+    m.modalCloseBtn = m.modal.querySelector(selectors.modalCloseBtn);
+
+    // add styling classes
+    addClass(m.modalOverlay, settings.modalOverlayClass);
+    addClass(m.modalContent, settings.modalContentClass);
+    addClass(m.modalCloseBtn, settings.modalCloseBtnClass);
 
     // private functions
     var bindClose = function () {
@@ -110,8 +127,8 @@ MiniModal.create = function (modalId, options) {
             // callback
             settings.onBeforeOpen(m);
 
-            doc.body.className += ' ' + (settings.bodyOpenClass);
-            m.modal.className += ' ' + (settings.modalOpenClass);
+            addClass(doc.body, settings.bodyOpenClass);
+            addClass(m.modal, settings.modalOpenClass);
 
             // store active modal, so it can be closed with static close method.
             activeModal = m;
@@ -119,6 +136,9 @@ MiniModal.create = function (modalId, options) {
     };
 
     m.close = function () {
+        if (arguments[0] && arguments[0].preventDefault) {
+            arguments[0].preventDefault();
+        }
 
         // fire callback
         if (settings.onBeforeClose(m) !== false) {

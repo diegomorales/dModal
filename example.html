@@ -7,9 +7,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-    <link rel="stylesheet" href="dist/mini-modal-base.css">
-    <link rel="stylesheet" href="dist/mini-modal-basic-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="dist/mini-modal.css">
+    <link rel="stylesheet" href="dist/mini-modal-themes.css">
+    <link rel="stylesheet" href="dist/mini-modal-transitions.css">
 </head>
 <body>
 <h1>Simple Modal</h1>
@@ -17,27 +18,27 @@
 <button id="open-modal">open modal</button>
 <button id="open-modal2">open modal 2   </button>
 <!-- modal dialog. is hidden -->
-<div id="modal-1" class="mini-modal mini-modal--basic-theme">
-    <div class="mini-modal__overlay"></div>
+<div id="modal-1" class="mini-modal mini-modal--default mini-modal--fade">
+    <div data-mini-modal-overlay></div>
 
-    <div class="mini-modal__content">
-        <h1>A very simple modal</h1>
+    <div data-mini-modal-content>
+        <h2>A very simple modal</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
 
         <!-- close button needs to be somewhere inside of ni-modal-content -->
-        <div class="mini-modal__close"></div>
+        <span data-mini-modal-close>close</span>
     </div>
 </div>
 
-<div id="modal-2" class="mini-modal">
-    <div class="mini-modal__overlay"></div>
+<div id="modal-2" class="mini-modal mini-modal--default mini-modal--scale">
+    <div data-mini-modal-overlay></div>
 
-    <div class="mini-modal__content">
-        <h1>anotha modal</h1>
+    <div data-mini-modal-content>
+        <h2>anotha modal</h2>
         <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
 
         <!-- close button needs to be somewhere inside of ni-modal-content -->
-        <div class="mini-modal__close"></div>
+        <div data-mini-modal-close>close</div>
     </div>
 </div>
 

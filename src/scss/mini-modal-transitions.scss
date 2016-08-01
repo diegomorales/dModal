@@ -1,0 +1,31 @@
+/*
+Some nice transition effects
+*/
+
+.mini-modal--fade {
+    display: block;
+    opacity: 0;
+    transition: all .22s ease-in-out, z-index 0s linear .3s;
+
+    &.mini-modal--open {
+        opacity: 1;
+        transition: all .22s ease-in-out;
+    }
+}
+
+.mini-modal--scale {
+    display: block;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: all .22s ease-in-out, z-index 0s linear .3s;
+
+    &.mini-modal--open {
+        transform: scale(1);
+        opacity: 1;
+        /* autoprefixer: off */
+        // because autoprefixer creates weird output.
+        //transition: opacity .22s ease-in-out, transform .28s ease-in-out, -webkit-transform .28s ease-in-out;
+        transition: all .22s ease-in-out;
+        /* autoprefixer: on */
+    }
+}
