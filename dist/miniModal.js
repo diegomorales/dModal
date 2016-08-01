@@ -86,73 +86,71 @@ MiniModal.create = function (modalId, options) {
     addClass(m.modalContent, settings.modalContentClass);
     addClass(m.modalCloseBtn, settings.modalCloseBtnClass);
 
-    // private functions
     var bindClose = function () {
-            m.modalCloseBtn.addEventListener('click', m.close);
+            m.modalCloseBtn.addEventListener('click', close);
 
             if (settings.escClose) {
                 doc.body.addEventListener('keyup', escCloseHandler);
             }
 
             if (settings.backgroundClickClose) {
-                m.modalOverlay.addEventListener('click', m.close);
+                m.modalOverlay.addEventListener('click', close);
             }
         },
 
         unbindClose = function () {
-            m.modalCloseBtn.removeEventListener('click', m.close);
-            m.modalOverlay.removeEventListener('click', m.close);
+            m.modalCloseBtn.removeEventListener('click', close);
+            m.modalOverlay.removeEventListener('click', close);
             doc.body.removeEventListener('keyup', escCloseHandler);
         },
 
         escCloseHandler = function (e) {
             if (e.keyCode === 27) {
-                m.close();
+                close();
             }
 
             e.preventDefault();
+        },
+
+        open = function () {
+
+            // close any open modal first.
+            MiniModal.close();
+
+            bindClose();
+
+            // show modal. setTimeout is needed if transitions are used.
+            setTimeout(function () {
+
+                // callback
+                settings.onBeforeOpen.call(null, m);
+
+                addClass(doc.body, settings.bodyOpenClass);
+                addClass(m.modal, settings.modalOpenClass);
+
+                // store active modal, so it can be closed with static close method.
+                activeModal = m;
+            }, 10);
+        },
+
+        close = function () {
+            if (arguments[0] && arguments[0].preventDefault) {
+                arguments[0].preventDefault();
+            }
+
+            // fire callback
+            if (settings.onBeforeClose.call(null, m) !== false) {
+
+                // hide modal
+                removeClass(m.modal, settings.modalOpenClass);
+                removeClass(doc.body, settings.bodyOpenClass);
+
+                unbindClose();
+                activeModal = null;
+            }
         };
 
-    // public functions
-    m.open = function () {
-
-        // close any open modal first.
-        MiniModal.close();
-
-        bindClose();
-
-        // show modal. setTimeout is needed if transitions are used.
-        setTimeout(function () {
-
-            // callback
-            settings.onBeforeOpen(m);
-
-            addClass(doc.body, settings.bodyOpenClass);
-            addClass(m.modal, settings.modalOpenClass);
-
-            // store active modal, so it can be closed with static close method.
-            activeModal = m;
-        }, 10);
-    };
-
-    m.close = function () {
-        if (arguments[0] && arguments[0].preventDefault) {
-            arguments[0].preventDefault();
-        }
-
-        // fire callback
-        if (settings.onBeforeClose(m) !== false) {
-
-            // hide modal
-            removeClass(m.modal, settings.modalOpenClass);
-            removeClass(doc.body, settings.bodyOpenClass);
-
-            unbindClose();
-            activeModal = null;
-        }
-    };
-
-    settings.onInit(m);
+    settings.onInit.call(null, m);
 
     // move modal to end of body
     if (settings.moveToBodyEnd) {
@@ -161,8 +159,14 @@ MiniModal.create = function (modalId, options) {
 
     // show modal
     if (settings.openImmediately) {
-        m.open();
+        open();
     }
+
+    // export functions to instance
+    m.open = open;
+    m.close = close;
+    m._bindClose = bindClose;
+    m._unbindClose = unbindClose;
 
     return m;
 };
