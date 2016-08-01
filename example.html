@@ -47,16 +47,16 @@
     var btn1 = document.getElementById('open-modal'),
         btn2 = document.getElementById('open-modal2'),
         modal = MiniModal.create('modal-1', {
-            onInit: function (data) {
-                console.log('onInit', data);
+            onInit: function (instance) {
+                console.log('onInit', instance);
             },
 
-            onBeforeOpen: function (data) {
-                console.log('onBeforeOpen', data);
+            onBeforeOpen: function (instance) {
+                console.log('onBeforeOpen', instance);
             },
 
-            onBeforeClose: function (data) {
-                console.log('onBeforeClose', data);
+            onBeforeClose: function (instance) {
+                console.log('onBeforeClose', instance);
 
                 // close can be cancelled with returning false
 //                return false;
