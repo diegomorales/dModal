@@ -148,6 +148,24 @@ MiniModal.create = function (modalId, options) {
                 unbindClose();
                 activeModal = null;
             }
+        },
+
+        // You will need this only in very rare occasions
+        trigger = function (callbackName) {
+            switch (callbackName) {
+                case 'onInit':
+                    settings.onInit.call(null, m);
+                    break;
+
+                case 'onBeforeOpen':
+                    settings.onBeforeOpen.call(null, m);
+                    break;
+
+                case 'onBeforeClose':
+                    settings.onBeforeClose.call(null, m);
+
+                // no default
+            }
         };
 
     settings.onInit.call(null, m);
@@ -165,6 +183,7 @@ MiniModal.create = function (modalId, options) {
     // export functions to instance
     m.open = open;
     m.close = close;
+    m._trigger = trigger;
     m._bindClose = bindClose;
     m._unbindClose = unbindClose;
 
