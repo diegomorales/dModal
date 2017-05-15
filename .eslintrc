@@ -1,45 +1,105 @@
-env:
-  browser: true
-  node: true
-
-rules:
-  indent: [1, 4, {"SwitchCase": 1}]
-  brace-style: [2, "1tbs"]
-  comma-style: [2, "last"]
-  default-case: 2
-  func-style: [0, "expression"]
-  no-floating-decimal: 2
-  no-nested-ternary: 2
-  no-undefined: 1
-  radix: 2
-  space-before-function-paren: [1, "always"]
-  keyword-spacing: 2
-  space-before-blocks: 2
-  spaced-comment: [2, "always", { exceptions: ["-"]}]
-  valid-jsdoc: [0, { requireReturn: false, prefer: { return": "returns" }}]
-  wrap-iife: 2
-  guard-for-in: 2
-  strict: [2, "global"]
-  global-strict: 0
-  no-alert: 2
-  camelcase: 1
-  curly: [2, "all"]
-  eqeqeq: [2, "allow-null"]
-  no-empty: 2
-  no-underscore-dangle: 0
-  no-use-before-define: 0
-  no-obj-calls: 2
-  no-unused-vars: [1, {"vars": "all", "args": "after-used"}]
-  new-cap: 2
-  no-shadow: 1
-  no-invalid-regexp: 2
-  comma-dangle: [2, "never"]
-  no-undef: 2
-  no-new: 2
-  no-extra-semi: 2
-  no-debugger: 2
-  no-caller: 1
-  semi: 2
-  quotes: [1, "single", "avoid-escape"]
-  no-unreachable: 2
-  eol-last: 1
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "globals": {
+    },
+    /**
+     * http://eslint.org/docs/rules/
+     */
+    "rules": {
+        /**
+         * Possible Errors
+         */
+        "comma-dangle": 2,
+        "no-dupe-args": 2,
+        "no-dupe-keys": 2,
+        "no-empty": 2,
+        "no-invalid-regexp": 2,
+        "no-unreachable": 2,
+        "valid-jsdoc": [
+            2,
+            {
+                "prefer": {
+                    "return": "return"
+                },
+                "requireReturn": false
+            }
+        ],
+        "valid-typeof": 2,
+        /**
+         * Best Practices
+         */
+        "block-scoped-var": 2,
+        "default-case": 0,
+        "eqeqeq": 2,
+        "no-alert": 2,
+        "no-eq-null": 2,
+        "no-lone-blocks": 1,
+        "yoda": 1,
+        /**
+         * Strict Mode
+         */
+        "strict": [
+            2,
+            "global"
+        ],
+        /**
+         * Variables
+         */
+        "no-unused-vars": 1,
+        /**
+         * Stylistic Issues
+         */
+        "array-bracket-spacing": [
+            1,
+            "never"
+        ],
+        "camelcase": [
+            2,
+            {
+                "properties": "always"
+            }
+        ],
+        "comma-spacing": [
+            1,
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "eol-last": 1,
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "indent": [
+            "error",
+            4,
+            {"SwitchCase": 1}
+        ],
+        "no-underscore-dangle": [
+            1,
+            {
+                "allowAfterThis": true
+            }
+        ],
+        "quotes": [
+            1,
+            "single"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "spaced-comment": [
+            1,
+            "always"
+        ]
+    }
+}

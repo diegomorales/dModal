@@ -1,6 +1,4 @@
-'use strict';
-
-var MiniModal = {},
+const MiniModal = {},
     defaults = {
         modalOverlayClass: 'mini-modal__overlay',
         modalContentClass: 'mini-modal__content',
@@ -22,32 +20,9 @@ var MiniModal = {},
         modalCloseBtn: '[data-mini-modal-close]'
     },
 
-    activeModal,
-    doc = document,
-
-    // helper functions
-    addClass= doc.documentElement.classList ? function (el, className) {
-        el.classList.add(className);
-    } : function (el, className) {
-        el.className += ' ' + className;
-    },
-
-    removeClass = doc.documentElement.classList ? function (el, className) {
-        el.classList.remove(className);
-    } : function (el, className) {
-        var classes = el.className.split(' '),
-            pos = classes.indexOf(className);
-
-        if (pos > -1) {
-            classes.splice(pos, 1);
-        }
-
-        el.className = classes.join(' ');
-    },
-
-    assign = function () {
-        for (var i = 1; i < arguments.length; i++) {
-            for (var key in arguments[i]) {
+    assign = function() {
+        for (let i = 1; i < arguments.length; i++) {
+            for (let key in arguments[i]) {
                 if (arguments[i].hasOwnProperty(key)) {
                     arguments[0][key] = arguments[i][key];
                 }
@@ -55,11 +30,14 @@ var MiniModal = {},
         }
 
         return arguments[0];
-    };
+    },
 
-// static functions
-MiniModal.create = function (modalId, options) {
-    var settings = assign({}, defaults, options),
+    doc = document;
+
+let activeModal;
+
+MiniModal.create = (modalId, options) => {
+    let settings = assign({}, defaults, options),
         m = {};
 
     // abort if modal doesn't exist.
@@ -73,11 +51,11 @@ MiniModal.create = function (modalId, options) {
     m.modalCloseBtn = m.modal.querySelector(selectors.modalCloseBtn);
 
     // add styling classes
-    addClass(m.modalOverlay, settings.modalOverlayClass);
-    addClass(m.modalContent, settings.modalContentClass);
-    addClass(m.modalCloseBtn, settings.modalCloseBtnClass);
+    m.modalOverlay.classList.add(settings.modalOverlayClass);
+    m.modalContent.classList.add(settings.modalContentClass);
+    m.modalCloseBtn.classList.add(settings.modalCloseBtnClass);
 
-    var bindClose = function () {
+    let bindClose = function () {
             m.modalCloseBtn.addEventListener('click', close);
 
             if (settings.escClose) {
@@ -116,8 +94,8 @@ MiniModal.create = function (modalId, options) {
                 // callback
                 settings.onBeforeOpen.call(null, m);
 
-                addClass(doc.body, settings.bodyOpenClass);
-                addClass(m.modal, settings.modalOpenClass);
+                doc.body.classList.add(settings.bodyOpenClass);
+                m.modal.classList.add(settings.modalOpenClass);
 
                 // store active modal, so it can be closed with static close method.
                 activeModal = m;
@@ -133,8 +111,8 @@ MiniModal.create = function (modalId, options) {
             if (settings.onBeforeClose.call(null, m) !== false) {
 
                 // hide modal
-                removeClass(m.modal, settings.modalOpenClass);
-                removeClass(doc.body, settings.bodyOpenClass);
+                m.modal.classList.remove(settings.modalOpenClass);
+                doc.body.classList.remove(settings.bodyOpenClass);
 
                 unbindClose();
                 activeModal = null;
@@ -174,24 +152,25 @@ MiniModal.create = function (modalId, options) {
     // export functions to instance
     m.open = open;
     m.close = close;
-    m._trigger = trigger;
-    m._bindClose = bindClose;
-    m._unbindClose = unbindClose;
+    m.trigger = trigger;
+    m.bindClose = bindClose;
+    m.unbindClose = unbindClose;
 
     return m;
 };
 
-// static functions
-MiniModal.close = function () {
+
+// Static functions
+MiniModal.close = () => {
     activeModal && activeModal.close();
     activeModal = null;
 };
 
-MiniModal.open = function (id, options) {
+MiniModal.open = (id, options) => {
     MiniModal.close();
     return MiniModal.create(id, assign(options || {}, {openImmediately: true}));
 };
 
-MiniModal.getActiveModal = function () {
-    return activeModal;
-};
+MiniModal.getActiveModal = () => activeModal;
+
+export default MiniModal;

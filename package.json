@@ -9,7 +9,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.0.0",
-    "gulp": "^3.9.0",
+    "babel-plugin-transform-remove-export": "^1.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-babel": "^6.1.2",
     "gulp-cssnano": "^2.0.0",
     "gulp-eslint": "3.0.1",
     "gulp-postcss": "^6.0.0",
@@ -17,16 +20,15 @@
     "gulp-sass": "^2.1.1",
     "gulp-uglify": "^1.5.1",
     "gulp-umd": "^0.2.0",
-    "watchify": "^3.6.1",
-    "path": "*",
     "postcss-discard-comments": "^2.0.0"
   },
   "main": "./dist/minimodal.js",
   "dependencies": {},
   "scripts": {
     "prestart": "npm install",
+    "postinstall": "npm prune; [ -f npm-shrinkwrap.json ] || npm shrinkwrap --dev",
     "start": "gulp",
-    "update": "npm update"
+    "build": "gulp build"
   },
   "license": "MIT"
 }

@@ -28,11 +28,9 @@
 }
 
 .mini-modal--default .mini-modal__close:before{
-    -ms-transform:rotate(45deg);
     transform:rotate(45deg);
 }
 
 .mini-modal--default .mini-modal__close:after{
-    -ms-transform:rotate(-45deg);
     transform:rotate(-45deg);
 }

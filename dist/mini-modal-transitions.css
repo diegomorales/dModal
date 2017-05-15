@@ -12,7 +12,6 @@
 .mini-modal--scale{
     display:block;
     opacity:0;
-    -ms-transform:scale(1.04);
     transform:scale(1.04);
     transition:all .22s ease-in-out, z-index 0s linear .3s;
 }
