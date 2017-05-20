@@ -15,62 +15,75 @@
 <body>
 <h1>Simple Modal</h1>
 
-<button id="open-modal">open modal</button>
-<button id="open-modal2">open modal 2   </button>
-<!-- modal dialog. is hidden -->
-<div id="modal-1" class="mini-modal mini-modal--default mini-modal--fade">
-    <div data-mini-modal-overlay></div>
+<button id="open-modal" data-modal-trigger="modal-1">open modal 1</button>
+<button id="open-modal2" data-modal-trigger="modal-2">open modal 2</button>
 
-    <div data-mini-modal-content>
+<!-- modal dialog. is hidden -->
+<div id="modal-1" data-modal class="mini-modal mini-modal--default mini-modal--fade">
+    <div class="mini-modal__overlay" data-overlay></div>
+
+    <div class="mini-modal__content" data-content>
         <h2>A very simple modal</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
 
-        <!-- close button needs to be somewhere inside of ni-modal-content -->
-        <span data-mini-modal-close>close</span>
+        <span class="mini-modal__close" data-close>&times;</span>
     </div>
 </div>
 
-<div id="modal-2" class="mini-modal mini-modal--default mini-modal--scale">
-    <div data-mini-modal-overlay></div>
+<div id="modal-2" data-modal class="mini-modal mini-modal--default mini-modal--scale">
+    <div class="mini-modal__overlay" data-overlay></div>
 
-    <div data-mini-modal-content>
-        <h2>anotha modal</h2>
-        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+    <div class="mini-modal__content" data-content>
+        <h2>A very simple modal</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
 
-        <!-- close button needs to be somewhere inside of ni-modal-content -->
-        <div data-mini-modal-close>close</div>
+        <span class="mini-modal__close" data-close>&times;</span>
     </div>
 </div>
 
 <script src="dist/mini-modal.umd.js"></script>
 <script>
-    var btn1 = document.getElementById('open-modal'),
-        btn2 = document.getElementById('open-modal2'),
-        modal = MiniModal.create('modal-1', {
-            onInit: function (instance) {
-                console.log('onInit', instance);
-            },
+    // Element.closest polyfill
+    if (window.Element && !Element.prototype.closest) {
+        Element.prototype.closest =
+            function(s) {
+                var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+                    i,
+                    el = this;
+                do {
+                    i = matches.length;
+                    while (--i >= 0 && matches.item(i) !== el) {};
+                } while ((i < 0) && (el = el.parentElement));
+                return el;
+            };
+    }
+    // End polyfill
 
-            onBeforeOpen: function (instance) {
-                console.log('onBeforeOpen', instance);
-            },
+    document.addEventListener('click', function (e) {
+        var tmpEl,
+            timestamp;
 
-            onBeforeClose: function (instance) {
-                console.log('onBeforeClose', instance);
+        if (tmpEl = e.target.closest('[data-modal-trigger]')) {
+            MiniModal.open(tmpEl.getAttribute('data-modal-trigger'))
+                .on('beforeOpen', function (instance) {
+                    console.log('before open', instance);
+                    timestamp = window.performance.now();
+                })
+                .on('afterOpen', function () {
+                    console.log('after open', (window.performance.now() - timestamp).toFixed(4) + ' ms');
+                })
+                .on('beforeClose', function (instance) {
+                    console.log('before close', instance);
+                    timestamp = window.performance.now()})
+                .on('afterClose', function () {
+                    console.log('after close', (window.performance.now() - timestamp).toFixed(4) + ' ms');
+                });
 
-                // close can be cancelled with returning false
-//                return false;
-            }
-        }),
-        modal2 = MiniModal.create('modal-2');
-
-    btn1.addEventListener('click', function(){
-        modal.open();
+            e.preventDefault();
+        }
     });
 
-    btn2.addEventListener('click', function(){
-        modal2.open();
-    });
+
 </script>
 </body>
 </html>

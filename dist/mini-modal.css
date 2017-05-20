@@ -7,7 +7,7 @@
     z-index:-1;
 }
 
-.mini-modal--open{
+.mini-modal.is-open{
     display:block;
     z-index:1001;
 }

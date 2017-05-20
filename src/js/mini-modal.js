@@ -1,26 +1,7 @@
 const MiniModal = {},
-    defaults = {
-        modalOverlayClass: 'mini-modal__overlay',
-        modalContentClass: 'mini-modal__content',
-        modalCloseBtnClass: 'mini-modal__close',
-        bodyOpenClass: 'mini-modal-active',
-        modalOpenClass: 'mini-modal--open',
-        backgroundClickClose: true,
-        escClose: true,
-        openImmediately: false,
-        moveToBodyEnd: true,
-        onInit: function () {},
-        onBeforeOpen: function () {},
-        onBeforeClose: function () {}
-    },
 
-    selectors = {
-        modalOverlay: '[data-mini-modal-overlay]',
-        modalContent: '[data-mini-modal-content]',
-        modalCloseBtn: '[data-mini-modal-close]'
-    },
-
-    assign = function() {
+    // Helper functions
+    assign = function () {
         for (let i = 1; i < arguments.length; i++) {
             for (let key in arguments[i]) {
                 if (arguments[i].hasOwnProperty(key)) {
@@ -32,143 +13,201 @@ const MiniModal = {},
         return arguments[0];
     },
 
-    doc = document;
+    closest = (startEl, selector) => {
+        let matches = document.querySelectorAll(selector),
+            i,
+            el = startEl;
+        do {
+            i = matches.length;
+            while (--i >= 0 && matches.item(i) !== el) {
+
+                // do nothing
+            }
+
+        } while ((i < 0) && (el = el.parentElement));
+        return el;
+    },
+
+    prevent = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    },
+
+    // Default options
+    defaults = {
+        bodyOpenClass: 'mini-modal-active',
+        openClass: 'is-open',
+        closeAttr: 'data-close',
+        overlayAttr: 'data-overlay',
+        contentAttr: 'data-content',
+        escClose: true,
+        backgroundClickClose: true,
+        openImmediately: false,
+        moveToBodyEnd: true
+    };
 
 let activeModal;
 
-MiniModal.create = (modalId, options) => {
-    let settings = assign({}, defaults, options),
-        m = {};
+// Static methods
 
-    // abort if modal doesn't exist.
-    if (!(m.modal = document.getElementById(modalId))) {
-        throw new Error('Element with id "' + modalId + '" not found.');
-    }
+/**
+ * Factory for MiniModal instance.
+ *
+ * @param {HTMLElement|string} el - Container element or id of container element
+ * @param {Object} options - Options object
+ * @returns {Object} Returns a modal instance
+ */
+MiniModal.create = (el, options) => {
+    let instance = {},
+        events = {},
+        settings = assign({}, defaults, options),
 
-    // store element references
-    m.modalOverlay = m.modal.querySelector(selectors.modalOverlay);
-    m.modalContent = m.modal.querySelector(selectors.modalContent);
-    m.modalCloseBtn = m.modal.querySelector(selectors.modalCloseBtn);
+        clickDelegateHandler = (e) => {
+            if (closest(e.target, `[${settings.closeAttr}]`)) {
+                instance.close();
 
-    // add styling classes
-    m.modalOverlay.classList.add(settings.modalOverlayClass);
-    m.modalContent.classList.add(settings.modalContentClass);
-    m.modalCloseBtn.classList.add(settings.modalCloseBtnClass);
-
-    let bindClose = function () {
-            m.modalCloseBtn.addEventListener('click', close);
-
-            if (settings.escClose) {
-                doc.body.addEventListener('keyup', escCloseHandler);
+                prevent(e);
+                return;
             }
 
-            if (settings.backgroundClickClose) {
-                m.modalOverlay.addEventListener('click', close);
+            if (settings.backgroundClickClose && closest(e.target, `[${settings.overlayAttr}]`)) {
+                instance.close();
+
+                prevent(e);
             }
         },
 
-        unbindClose = function () {
-            m.modalCloseBtn.removeEventListener('click', close);
-            m.modalOverlay.removeEventListener('click', close);
-            doc.body.removeEventListener('keyup', escCloseHandler);
-        },
-
-        escCloseHandler = function (e) {
-            if (e.keyCode === 27) {
-                close();
-            }
-
-            e.preventDefault();
-        },
-
-        open = function () {
-
-            // close any open modal first.
-            MiniModal.close();
-
-            bindClose();
-
-            // show modal. setTimeout is needed if transitions are used.
-            setTimeout(function () {
-
-                // callback
-                settings.onBeforeOpen.call(null, m);
-
-                doc.body.classList.add(settings.bodyOpenClass);
-                m.modal.classList.add(settings.modalOpenClass);
-
-                // store active modal, so it can be closed with static close method.
-                activeModal = m;
-            }, 10);
-        },
-
-        close = function () {
-            if (arguments[0] && arguments[0].preventDefault) {
-                arguments[0].preventDefault();
-            }
-
-            // fire callback
-            if (settings.onBeforeClose.call(null, m) !== false) {
-
-                // hide modal
-                m.modal.classList.remove(settings.modalOpenClass);
-                doc.body.classList.remove(settings.bodyOpenClass);
-
-                unbindClose();
-                activeModal = null;
+        keyHandler = (e) => {
+            if (settings.escClose && e.code === 'Escape') {
+                instance.close();
             }
         },
 
-        // You will need this only in very rare occasions
-        trigger = function (callbackName) {
-            switch (callbackName) {
-                case 'onInit':
-                    settings.onInit.call(null, m);
-                    break;
+        bindEvents = () => {
+            el.addEventListener('click', clickDelegateHandler);
+            document.addEventListener('keyup', keyHandler);
+        },
 
-                case 'onBeforeOpen':
-                    settings.onBeforeOpen.call(null, m);
-                    break;
+        unbindEvents = () => {
+            el.removeEventListener('click', clickDelegateHandler);
+            document.removeEventListener('keyup', keyHandler);
+        },
 
-                case 'onBeforeClose':
-                    settings.onBeforeClose.call(null, m);
-
-                // no default
-            }
+        trigger = (eventName) => {
+            events.hasOwnProperty(eventName) && events[eventName]({
+                modal: el,
+                modalContent: el.querySelector(`[${settings.contentAttr}]`)
+            });
         };
 
-    settings.onInit.call(null, m);
+    // Public methods
+    instance.open = () => {
 
-    // move modal to end of body
+        // Close any open modal first.
+        MiniModal.close();
+
+        bindEvents();
+
+        // show modal. setTimeout is needed if transitions are used.
+        setTimeout(() => {
+            trigger('beforeOpen');
+
+            el.addEventListener('transitionend', function transitionHandler() {
+
+                // store active modal, so it can be closed with static close method.
+                activeModal = instance;
+
+                trigger('afterOpen');
+
+                el.removeEventListener('transitionend', transitionHandler);
+            });
+
+            document.documentElement.classList.add(settings.bodyOpenClass);
+            el.classList.add(settings.openClass);
+        }, 0);
+    };
+
+    instance.close = () => {
+        trigger('beforeClose');
+
+        // Hide modal
+        el.classList.remove(settings.openClass);
+        document.documentElement.classList.remove(settings.bodyOpenClass);
+
+        unbindEvents();
+        activeModal = null;
+
+        trigger('afterClose');
+    };
+
+    /**
+     * Registers an event
+     *
+     * @param {string} eventName - Event name
+     * @param {Function} callback - Callback function
+     * @returns {Object} instance - Returns the modal instance. can be useful for chaining.
+     */
+    instance.on = (eventName, callback) => {
+        if (!events.hasOwnProperty(eventName)) {
+
+            events[eventName] = callback;
+        }
+
+        // Allow chaining
+        return instance;
+    };
+
+    instance.off = (eventName = '') => {
+        if (eventName === '') {
+            events = {};
+        } else if (events.hasOwnProperty(eventName)) {
+            delete events[eventName];
+        }
+
+        // Allow chaining
+        return instance;
+    };
+
+    // Check if el is id or element
+    if (typeof el === 'string') {
+        el = document.getElementById(el);
+    }
+
+    if (!(el instanceof HTMLElement)) {
+        throw new Error('MiniModal container element not found.');
+    }
+
+    // Move modal to end of body
     if (settings.moveToBodyEnd) {
-        doc.body.appendChild(m.modal);
+        document.body.appendChild(el);
     }
 
-    // show modal
+    // Show modal
     if (settings.openImmediately) {
-        open();
+        instance.open();
     }
 
-    // export functions to instance
-    m.open = open;
-    m.close = close;
-    m.trigger = trigger;
-    m.bindClose = bindClose;
-    m.unbindClose = unbindClose;
-
-    return m;
+    return instance;
 };
 
-
-// Static functions
+/**
+ * Closes any active modal dialog.
+ */
 MiniModal.close = () => {
     activeModal && activeModal.close();
     activeModal = null;
 };
 
-MiniModal.open = (id, options) => {
+/**
+ * Creates a modal and immediately opens it.
+ *
+ * @param {HTMLElement|string} el - Container element or id of container element
+ * @param {Object} options - Options object
+ * @returns {Object} Returns a modal instance
+ */
+MiniModal.open = (el, options = {}) => {
     MiniModal.close();
-    return MiniModal.create(id, assign(options || {}, {openImmediately: true}));
+    return MiniModal.create(el, assign(options, {openImmediately: true}));
 };
 
 MiniModal.getActiveModal = () => activeModal;

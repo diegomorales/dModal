@@ -4,7 +4,7 @@
     transition:all .22s ease-in-out, z-index 0s linear .3s;
 }
 
-.mini-modal--fade.mini-modal--open{
+.mini-modal--fade.is-open{
     opacity:1;
     transition:all .22s ease-in-out;
 }
@@ -16,7 +16,7 @@
     transition:all .22s ease-in-out, z-index 0s linear .3s;
 }
 
-.mini-modal--scale.mini-modal--open{
+.mini-modal--scale.is-open{
     transform:scale(1);
     opacity:1;
     transition:all .22s ease-in-out;
