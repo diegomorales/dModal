@@ -135,14 +135,18 @@ MiniModal.create = function (el, options) {
     instance.close = function () {
         trigger('beforeClose');
 
+        el.addEventListener('transitionend', function transitionHandler() {
+            unbindEvents();
+            activeModal = null;
+
+            trigger('afterClose');
+
+            el.removeEventListener('transitionend', transitionHandler);
+        });
+
         // Hide modal
         el.classList.remove(settings.openClass);
         document.documentElement.classList.remove(settings.bodyOpenClass);
-
-        unbindEvents();
-        activeModal = null;
-
-        trigger('afterClose');
     };
 
     /**

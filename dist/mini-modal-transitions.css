@@ -1,14 +1,3 @@
-.mini-modal--fade{
-    display:block;
-    opacity:0;
-    transition:all .22s ease-in-out, z-index 0s linear .3s;
-}
-
-.mini-modal--fade.is-open{
-    opacity:1;
-    transition:all .22s ease-in-out;
-}
-
 .mini-modal--scale{
     display:block;
     opacity:0;
