@@ -114,7 +114,7 @@ MiniModal.create = function (el, options) {
         bindEvents();
 
         // show modal. setTimeout is needed if transitions are used.
-        setTimeout(function () {
+        requestAnimationFrame(function () {
             trigger('beforeOpen');
 
             el.addEventListener('transitionend', function transitionHandler() {
@@ -129,7 +129,7 @@ MiniModal.create = function (el, options) {
 
             document.documentElement.classList.add(settings.bodyOpenClass);
             el.classList.add(settings.openClass);
-        }, 0);
+        });
     };
 
     instance.close = function () {

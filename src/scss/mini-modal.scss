@@ -15,7 +15,7 @@ Handle only positioning and basic behaviour.
 
     &.is-open {
         opacity: 1;
-        z-index: 1001;
+        z-index: 1000;
         transition: opacity .2s ease-in-out;
     }
 }
@@ -26,7 +26,7 @@ Handle only positioning and basic behaviour.
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1000;
+    z-index: 1001;
 }
 
 .mini-modal__content {

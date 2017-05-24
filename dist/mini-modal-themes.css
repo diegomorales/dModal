@@ -17,7 +17,7 @@
 }
 
 .mini-modal--default .mini-modal__close:before, .mini-modal--default .mini-modal__close:after{
-    content:' ';
+    content:"";
     display:block;
     position:absolute;
     top:0;
