@@ -1,7 +1,7 @@
 {
   "name": "mini-modal",
   "version": "2.0.0",
-  "description": "A super tiny modal plugin.",
+  "description": "A super tiny modal dialog plugin.",
   "author": "Diego Morales <diego.morales@gmx.net>",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "gulp-umd": "^0.2.0",
     "postcss-discard-comments": "^2.0.0"
   },
-  "main": "./dist/minimodal.js",
+  "main": "./dist/mini-modal.js",
   "dependencies": {},
   "scripts": {
     "prestart": "npm install",
